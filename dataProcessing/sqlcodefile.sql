@@ -101,34 +101,59 @@ select sum(cast(EstimatedFraudAmount_ZAR as BIGINT)) as total_fraud_amount
 from [saps_crime_data].[dbo].[saps_crime_data];
 
 --21. Identify the province with the highest number of cases.
-
+select top 1 province, count(*) as number_of_cases
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by province
+order by number_of_cases desc;
 
 --22. Retrieve the youngest suspect in the dataset.
-
+select top 1 *
+from [saps_crime_data].[dbo].[saps_crime_data]
+order by age asc;
 
 --23. Retrieve the oldest suspect in the dataset.
-
+select top 1 *
+from [saps_crime_data].[dbo].[saps_crime_data]
+order by age desc;
 
 --24. Count the number of cases handled by each investigating officer.
-
+select InvestigatingOfficer, count(*) as number_cases
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by InvestigatingOfficer
+order by number_cases desc;
 
 --25. Calculate the average Estimated Fraud Amount per crime type.
-
+select CrimeType,avg(EstimatedFraudAmount_ZAR) as fraud_amount
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by CrimeType
+order by fraud_amount desc;
 
 --26. Display all cases occurring in Gauteng province.
-
+select *
+from [saps_crime_data].[dbo].[saps_crime_data]
+where province = 'gauteng';
 
 --27. Retrieve all Fraud cases classified as High risk.
-
+select *
+from [saps_crime_data].[dbo].[saps_crime_data]
+where CrimeType ='fraud' and RiskLevel ='high';
 
 --28. Count the number of cases per year based on CrimeDate.
-
+select YEAR(crimedate) as year, count(*) as number_cases
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by YEAR(crimedate)
+order by YEAR(crimedate);
 
 --29. Display all suspects with a Financial Score below 500.
-
+select *
+from [saps_crime_data].[dbo].[saps_crime_data]
+where FinancialScore < 500;
 
 --30. Identify the most common Crime Type in the dataset.
-
+select top 1 CrimeType, count(*) as number_cases
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by CrimeType
+order by number_cases desc;
 
 --31. Write a query to show the number of high-risk and critical SAPS cases, broken down by Gender and CrimeType. Display the results with the highest number of cases first.
 select gender,  crimetype, count(casenumber) as number_cases
