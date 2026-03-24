@@ -48,34 +48,57 @@ from [saps_crime_data].[dbo].[saps_crime_data]
 where arrested = 'yes';
 
 --11. Count how many suspects were arrested versus not arrested.
-
+select arrested, count(*) as number_suspects
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by Arrested;
 
 --12. Count the number of cases associated with each bank.
-
+select bankinvolved, count(*) as number_cases
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by BankInvolved
+order by number_cases desc;
 
 --13. Calculate the total Estimated Fraud Amount per province.
-
+select province, sum(EstimatedFraudAmount_ZAR) as fraud_amount
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by Province
+order by fraud_amount desc;
 
 --14. Retrieve all suspects older than 50 years.
-
+select *
+from [saps_crime_data].[dbo].[saps_crime_data]
+where age > 50;
 
 --15. Calculate the average age of suspects per province.
-
+select province, avg(age) as average_age
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by province
+order by average_age desc;
 
 --16. Display all cases recorded from 2020 onwards.
-
+select *
+from [saps_crime_data].[dbo].[saps_crime_data]
+where YEAR(CrimeDate) > 2020;
 
 --17. Count how many cases resulted in a Convicted status.
-
+select count(*) as number_of_cases
+from [saps_crime_data].[dbo].[saps_crime_data]
+where CaseStatus ='convicted';
 
 --18. Retrieve all suspects with more than three previous offenses.
-
+select *
+from [saps_crime_data].[dbo].[saps_crime_data]
+where PreviousOffenses > 3;
 
 --19. Show the distribution of cases by Risk Level.
-
+select RiskLevel,count(*) as number_of_cases
+from [saps_crime_data].[dbo].[saps_crime_data]
+group by RiskLevel
+order by number_of_cases desc;
 
 --20. Calculate the total Estimated Fraud Amount across all cases.
-
+select sum(cast(EstimatedFraudAmount_ZAR as BIGINT)) as total_fraud_amount
+from [saps_crime_data].[dbo].[saps_crime_data];
 
 --21. Identify the province with the highest number of cases.
 
